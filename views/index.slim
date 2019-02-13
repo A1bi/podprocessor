@@ -1,9 +1,16 @@
-.container.mt-4
-  h1 Podcast Uploader
+h1 Podcast Uploader
 
-  form
-    .form-group
-      label for='exampleInputEmail1' Test
-      input.form-control type="email" id="exampleInputEmail1" placeholder="Enter email"
-      small.form-text.text-muted id="emailHelp" We'll never share your email with anyone else.
-    button.btn.btn-primary type='submit' Hochladen
+form.dropzone
+  .form-group
+    label for='podcast' Podcast
+    select.metadata#podcast name='podcast'
+      option value='' Podcast wählen
+      - podcasts.each do |identifier, name|
+        option value=identifier = name
+  .form-group
+    label for='audio-file' Audiodatei
+    input.filepond#audio-file data-label='Datei auf dieses Feld ziehen oder per Klick auswählen.' type='file'
+
+em.waiting Die Datei wird nun hochgeladen und auf dem Server für den Podcast angepasst. Nach Abschluss erhältst du eine E-Mail mit dem Dateinamen zum Einfügen in Wordpress.
+
+em.success Die Datei wird nun verarbeitet. Nach Abschluss erhältst du eine E-Mail mit dem Dateinamen zum Einfügen in Wordpress.

@@ -1,1 +1,29 @@
-@import bootstrap
+body
+  font-family: sans-serif
+  margin: 30px
+
+  &.processing .waiting
+    opacity: 1
+
+  &.processed .success
+    opacity: 1
+
+form
+  .form-group
+    margin-bottom: 15px
+
+  label
+    display: inline-block
+    margin-bottom: 5px
+
+  input, select
+    display: block
+    width: 100%
+
+.waiting, .success
+  display: block
+  opacity: 0
+  transition: opacity .5s
+
+.success
+  color: darkgreen

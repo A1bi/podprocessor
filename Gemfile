@@ -2,9 +2,8 @@
 
 source 'https://rubygems.org'
 
-gem 'bootstrap', '~> 4.3.1'
 gem 'puma'
-gem 'sassc-rails'
+gem 'sass'
 gem 'sinatra'
 gem 'slim'
 gem 'sprockets'
