@@ -1,3 +1,6 @@
 podcasts:
   3dcast: 3D-Podcast
   gwaren: Gebrauchtwaren-Podcast
+audio_file_destination:
+  development: ./files
+  production: /usr/local/www/media

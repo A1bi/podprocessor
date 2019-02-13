@@ -11,6 +11,7 @@ window.addEventListener 'load', ->
   FilePond.registerPlugin(FilePondPluginFileValidateType)
 
   pond = FilePond.create(filepicker,
+    name: 'file',
     labelIdle: filepicker.dataset.label
     acceptedFileTypes: ['audio/mpeg', 'audio/mp3'],
     server: {
