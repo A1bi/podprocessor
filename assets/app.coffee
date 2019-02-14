@@ -28,7 +28,7 @@ window.addEventListener 'load', ->
     setProcessingState 'processing'
 
   pond.on 'processfile', (error) ->
-    setProcessingState if error? then '' else 'processed'
+    setProcessingState if error? then null else 'processed'
 
   pond.on 'processfileabort', ->
     setProcessingState
