@@ -14,4 +14,6 @@ gem 'uglifier'
 
 group :development do
   gem 'byebug'
+  gem 'capistrano', '~> 3.11'
+  gem 'capistrano3-puma', '~> 3.1.1'
 end
