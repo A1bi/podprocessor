@@ -2,13 +2,13 @@
 
 require 'sinatra/config_file'
 require 'sinatra/reloader'
-require 'sinatra/cookies'
+require 'encrypted_cookie'
 
 require './workers/processor'
 
 class PodProcessor < Sinatra::Base
   register Sinatra::ConfigFile
-  helpers Sinatra::Cookies
+  use Rack::Session::EncryptedCookie, secret: ENV['SESSION_SECRET']
 
   config_file 'config/config.yml'
 
@@ -17,10 +17,14 @@ class PodProcessor < Sinatra::Base
   end
 
   get '/' do
-    slim :index, locals: { podcasts: settings.podcasts, email: cookies[:email] }
+    authenticate
+
+    slim :index, locals: { podcasts: settings.podcasts, email: session[:email] }
   end
 
   post '/files' do
+    authenticate
+
     podcast = params[:podcast]
     return 422 unless podcast_exist?(podcast) && params[:email] =~ /.+@.+\..+/
 
@@ -41,7 +45,7 @@ class PodProcessor < Sinatra::Base
       end
     end
 
-    cookies[:email] = params[:email]
+    session[:email] = params[:email]
 
     Processor.perform_async(path, params[:email])
 
@@ -49,6 +53,8 @@ class PodProcessor < Sinatra::Base
   end
 
   delete '/files' do
+    authenticate
+
     path = request.body.read
     podcast = File.dirname(path)
     return 422 unless podcast_exist? podcast
@@ -62,11 +68,43 @@ class PodProcessor < Sinatra::Base
     FileUtils.rm filepath
   end
 
+  get '/login' do
+    slim :login
+  end
+
+  post '/login' do
+    if params[:password] == ENV['AUTH_PASSWORD']
+      session[:authenticated_at] = session[:last_seen_at] = Time.now
+      redirect '/'
+    else
+      slim :login, locals: { error: true }
+    end
+  end
+
+  get '/logout' do
+    destroy_authentication
+    redirect '/login'
+  end
+
   not_found do
     'Unknown action.'
   end
 
   private
+
+  def authenticate
+    if session[:authenticated_at].nil? || session[:authenticated_at] < Time.now - 86_400 ||
+       session[:last_seen_at].nil? || session[:last_seen_at] < Time.now - 10_080
+      destroy_authentication
+      return redirect '/login'
+    end
+
+    session[:last_seen_at] = Time.now
+  end
+
+  def destroy_authentication
+    session[:authenticated_at] = nil
+  end
 
   def target_path(filename, podcast)
     path = Pathname.new(settings.audio_file_destination).join(podcast)

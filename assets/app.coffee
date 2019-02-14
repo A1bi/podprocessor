@@ -1,7 +1,8 @@
 window.addEventListener 'load', ->
   body = document.querySelector('body')
-  filepicker = document.querySelector '#audio-file'
   metadata = document.querySelectorAll '.metadata'
+  filepicker = document.querySelector '#audio-file'
+  return unless filepicker?
 
   setProcessingState = (state) ->
     body.classList.remove 'processing', 'processed'

@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 
 gem 'coffee-script'
 gem 'dotenv'
+gem 'encrypted_cookie'
 gem 'pony'
 gem 'puma'
 gem 'sass'

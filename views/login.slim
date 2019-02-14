@@ -1,0 +1,12 @@
+h1 Podcast Upload – Login
+
+- if locals[:error]
+  .error Passwort nicht korrekt.
+
+form method='post'
+  .form-group
+    label for='password' Passwort
+    input#password type='password' name='password' required=true
+  .form-group
+    button type='submit' login
+
