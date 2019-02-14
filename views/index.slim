@@ -3,11 +3,12 @@ h1 Podcast Uploader
 form.dropzone
   .form-group
     label for='podcast' Podcast
-    select.metadata#podcast name='podcast'
-      option value='' Podcast wählen
+    select.metadata#podcast name='podcast' required='required'
+      option value=''
+        | --- Podcast wählen ---
       - podcasts.each do |identifier, name|
         option value=identifier = name
-  .form-group
+  .form-group.audio-file
     label for='audio-file' Audiodatei
     input.filepond#audio-file data-label='Datei auf dieses Feld ziehen oder per Klick auswählen.' type='file'
 

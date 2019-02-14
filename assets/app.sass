@@ -20,6 +20,21 @@ form
     display: block
     width: 100%
 
+  select
+    -webkit-appearance: menulist-button
+    height: 30px
+    font-size: 13px
+
+  .audio-file
+    transition: opacity .5s
+
+    .filepond--drop-label label
+      cursor: pointer
+
+  &:invalid .audio-file
+    opacity: 0
+    pointer-events: none
+
 .waiting, .success
   display: block
   opacity: 0
