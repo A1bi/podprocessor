@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
-require 'sinatra/base'
-require 'sassc'
-require 'uglifier'
-require 'sprockets'
-require 'bootstrap'
+require 'rubygems'
+require 'bundler'
+
+Bundler.require(:default, ENV['RACK_ENV'])
 
 require './app'
 

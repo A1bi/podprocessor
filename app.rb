@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
-require 'sinatra/base'
-require 'sinatra/reloader'
 require 'sinatra/config_file'
-require 'slim'
+require 'sinatra/reloader'
 
 require './workers/processor'
 
