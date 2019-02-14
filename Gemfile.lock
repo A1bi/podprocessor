@@ -4,6 +4,7 @@ GEM
     byebug (10.0.2)
     concurrent-ruby (1.1.4)
     connection_pool (2.2.2)
+    dotenv (2.6.0)
     execjs (2.7.0)
     ffi (1.10.0)
     mail (2.7.1)
@@ -51,6 +52,7 @@ PLATFORMS
 
 DEPENDENCIES
   byebug
+  dotenv
   pony
   puma
   sass
