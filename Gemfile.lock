@@ -12,6 +12,9 @@ GEM
       sshkit (>= 1.9.0)
     capistrano-bundler (1.5.0)
       capistrano (~> 3.1)
+    capistrano-sidekiq (1.0.2)
+      capistrano (>= 3.9.0)
+      sidekiq (>= 3.4)
     capistrano3-puma (3.1.1)
       capistrano (~> 3.7)
       capistrano-bundler
@@ -88,6 +91,7 @@ PLATFORMS
 DEPENDENCIES
   byebug
   capistrano (~> 3.11)
+  capistrano-sidekiq (~> 1.0.2)
   capistrano3-puma (~> 3.1.1)
   coffee-script
   dotenv

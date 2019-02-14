@@ -6,6 +6,7 @@ require 'pathname'
 require 'pony'
 
 require_relative '../app'
+require_relative '../config/sidekiq'
 require_relative '../config/pony'
 
 class Processor

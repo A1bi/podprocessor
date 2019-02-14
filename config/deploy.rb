@@ -9,3 +9,5 @@ append :linked_files, '.env'
 append :linked_dirs, 'tmp/pids', 'tmp/sockets', 'log'
 
 set :keep_releases, 2
+
+set :sidekiq_require, './app.rb'
