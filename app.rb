@@ -5,6 +5,8 @@ require 'sinatra/reloader'
 require 'sinatra/config_file'
 require 'slim'
 
+require './workers/processor'
+
 class PodProcessor < Sinatra::Base
   register Sinatra::ConfigFile
   config_file 'config/config.yml'
@@ -37,6 +39,8 @@ class PodProcessor < Sinatra::Base
         f.write(audio_file.read)
       end
     end
+
+    Processor.perform_async(path, settings.processing)
 
     Pathname.new(podcast).join(filename_with_extension(target_filename)).to_s
   end

@@ -4,3 +4,7 @@ podcasts:
 audio_file_destination:
   development: ./tmp/files
   production: /usr/local/www/media
+processing:
+  mp3:
+    bitrate: 128k
+    sampling_rate: 44100
