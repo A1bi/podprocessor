@@ -8,6 +8,9 @@ form.dropzone
         | --- Podcast wählen ---
       - podcasts.each do |identifier, name|
         option value=identifier = name
+  .form-group
+    label for='email' E-Mail-Adresse für Benachrichtigung
+    input.metadata#email type='email' name='email' value=email required=true
   .form-group.audio-file
     label for='audio-file' Audiodatei
     input.filepond#audio-file data-label='Datei auf dieses Feld ziehen oder per Klick auswählen.' type='file'

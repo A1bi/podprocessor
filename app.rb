@@ -2,11 +2,14 @@
 
 require 'sinatra/config_file'
 require 'sinatra/reloader'
+require 'sinatra/cookies'
 
 require './workers/processor'
 
 class PodProcessor < Sinatra::Base
   register Sinatra::ConfigFile
+  helpers Sinatra::Cookies
+
   config_file 'config/config.yml'
 
   configure :development do
@@ -14,12 +17,12 @@ class PodProcessor < Sinatra::Base
   end
 
   get '/' do
-    slim :index, locals: { podcasts: settings.podcasts }
+    slim :index, locals: { podcasts: settings.podcasts, email: cookies[:email] }
   end
 
   post '/files' do
     podcast = params[:podcast]
-    return 422 unless podcast_exist? podcast
+    return 422 unless podcast_exist?(podcast) && params[:email] =~ /.+@.+\..+/
 
     original_filename = params[:file][:filename]
     audio_file = params[:file][:tempfile]
@@ -38,7 +41,9 @@ class PodProcessor < Sinatra::Base
       end
     end
 
-    Processor.perform_async(path)
+    cookies[:email] = params[:email]
+
+    Processor.perform_async(path, params[:email])
 
     Pathname.new(podcast).join(filename_with_extension(target_filename)).to_s
   end

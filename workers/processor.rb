@@ -15,7 +15,7 @@ Encoding.default_external = Encoding::UTF_8
 class Processor
   include Sidekiq::Worker
 
-  def perform(path)
+  def perform(path, recipient)
     return unless File.exist?(path)
 
     original, basename = move_original(path)
@@ -27,7 +27,7 @@ class Processor
       break unless success
     end
 
-    mail(basename) if success
+    mail(basename, recipient) if success
   end
 
   private
@@ -46,8 +46,8 @@ class Processor
                    -y '#{target_path}'")
   end
 
-  def mail(slug)
-    Pony.mail to: PodProcessor.settings.mail['recipient'],
+  def mail(slug, recipient)
+    Pony.mail to: recipient,
               from: PodProcessor.settings.mail['sender'],
               subject: PodProcessor.settings.mail['subject'],
               body: render('email', slug: slug)
