@@ -51,7 +51,15 @@ class Processor
   end
 
   def render(template, locals = {})
-    ERB.new(File.read("./views/#{template}.erb")).result_with_hash(locals)
+    erb = ERB.new(File.read("./views/#{template}.erb"))
+
+    # ruby > 2.5
+    return erb.result_with_hash(locals) if erb.respond_to? :result_with_hash
+
+    # ruby < 2.5
+    bind = binding
+    locals.each { |key, value| bind.local_variable_set(key, value) }
+    erb.result(bind)
   end
 
   def filename_without_extension(filename)
