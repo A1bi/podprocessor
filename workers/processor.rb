@@ -27,7 +27,7 @@ class Processor
       break unless success
     end
 
-    mail(basename, recipient) if success
+    mail(basename, recipient, success)
   end
 
   private
@@ -46,11 +46,11 @@ class Processor
                    -y '#{target_path}'")
   end
 
-  def mail(slug, recipient)
+  def mail(slug, recipient, success)
     Pony.mail to: recipient,
               from: PodProcessor.settings.mail['sender'],
-              subject: PodProcessor.settings.mail['subject'],
-              body: render('email', slug: slug)
+              subject: PodProcessor.settings.mail["subject_#{result_suffix(success)}"],
+              body: render("email_#{result_suffix(success)}", slug: slug)
   end
 
   def render(template, locals = {})
@@ -67,5 +67,9 @@ class Processor
 
   def filename_without_extension(filename)
     File.basename(filename, File.extname(filename))
+  end
+
+  def result_suffix(success)
+    success ? :success : :error
   end
 end

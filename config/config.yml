@@ -9,5 +9,6 @@ processing:
     bitrate: 128k
     sampling_rate: 44100
 mail:
-  sender: postmaster@a0s.de
-  subject: Podcast-Datei steht bereit
+  sender: Podcast Upload<postmaster@a0s.de>
+  subject_success: Podcast-Datei steht bereit
+  subject_error: Fehler beim Verarbeiten der Podcast-Datei
