@@ -9,6 +9,9 @@ require_relative '../app'
 require_relative '../config/sidekiq'
 require_relative '../config/pony'
 
+Encoding.default_internal = Encoding::UTF_8
+Encoding.default_external = Encoding::UTF_8
+
 class Processor
   include Sidekiq::Worker
 
