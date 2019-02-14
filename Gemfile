@@ -2,10 +2,15 @@
 
 source 'https://rubygems.org'
 
+gem 'pony'
 gem 'puma'
 gem 'sass'
-gem 'sinatra'
 gem 'sidekiq'
+gem 'sinatra'
 gem 'slim'
 gem 'sprockets'
 gem 'uglifier'
+
+group :development do
+  gem 'byebug'
+end

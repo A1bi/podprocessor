@@ -8,3 +8,11 @@ processing:
   mp3:
     bitrate: 128k
     sampling_rate: 44100
+mail:
+  development: &common_mail
+    sender: postmaster@a0s.de
+    subject: Podcast-Datei steht bereit
+    recipient: albo@a0s.de
+  production:
+    <<: *common_mail
+    recipient: max@3d-podcast.de

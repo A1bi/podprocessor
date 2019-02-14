@@ -1,11 +1,17 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    byebug (10.0.2)
     concurrent-ruby (1.1.4)
     connection_pool (2.2.2)
     execjs (2.7.0)
     ffi (1.10.0)
+    mail (2.7.1)
+      mini_mime (>= 0.1.1)
+    mini_mime (1.0.1)
     mustermann (1.0.3)
+    pony (1.13)
+      mail (>= 2.0)
     puma (3.12.0)
     rack (2.0.6)
     rack-protection (2.0.5)
@@ -44,6 +50,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  byebug
+  pony
   puma
   sass
   sidekiq

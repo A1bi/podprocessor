@@ -40,7 +40,7 @@ class PodProcessor < Sinatra::Base
       end
     end
 
-    Processor.perform_async(path, settings.processing)
+    Processor.perform_async(path)
 
     Pathname.new(podcast).join(filename_with_extension(target_filename)).to_s
   end
