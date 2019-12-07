@@ -18,4 +18,5 @@ gem 'uglifier'
 group :development do
   gem 'byebug'
   gem 'capistrano', '~> 3.11', require: false
+  gem 'capistrano-bundler', require: false
 end

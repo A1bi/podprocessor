@@ -8,7 +8,7 @@ set :repo_url, 'git@gitlab.a0s.de:albrecht/podprocessor.git'
 set :deploy_to, '/home/sinatra/podprocessor'
 
 append :linked_files, '.env'
-append :linked_dirs, 'tmp/pids', 'tmp/sockets', 'log'
+append :linked_dirs, 'tmp/pids', 'tmp/sockets', 'log', '.bundle'
 
 set :keep_releases, 2
 
