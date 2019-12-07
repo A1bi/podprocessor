@@ -1,0 +1,35 @@
+.ruby:
+  tags: [ruby-2.6]
+
+before_script:
+  - ruby -v
+  - bundle install -j $(sysctl -n hw.ncpu)
+
+rubocop:
+  extends: .ruby
+  script:
+    - rubocop
+
+audit:
+  extends: .ruby
+  script:
+    - gem install bundler-audit
+    - bundler-audit
+
+deploy:
+  extends: .ruby
+  stage: deploy
+  before_script:
+    - eval $(ssh-agent -s)
+    - echo "$DEPLOY_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+  script:
+    - cap production deploy
+    # needs to be run here (not in after_script) or the job will get stuck
+    - ssh-agent -k
+  environment:
+    name: production
+    url: https://podcast.a0s.de
+  only:
+    refs:
+      - master
+  when: manual
