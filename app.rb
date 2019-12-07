@@ -93,13 +93,21 @@ class PodProcessor < Sinatra::Base
   private
 
   def authenticate
-    if session[:authenticated_at].nil? || session[:authenticated_at] < Time.now - 86_400 ||
-       session[:last_seen_at].nil? || session[:last_seen_at] < Time.now - 10_080
+    unless authenticated? && recently_seen?
       destroy_authentication
       return redirect '/login'
     end
 
     session[:last_seen_at] = Time.now
+  end
+
+  def authenticated?
+    !session[:authenticated_at].nil? &&
+      session[:authenticated_at] > Time.now - 86_400
+  end
+
+  def recently_seen?
+    !session[:last_seen_at].nil? && session[:last_seen_at] > Time.now - 10_080
   end
 
   def destroy_authentication

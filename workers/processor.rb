@@ -22,8 +22,9 @@ class Processor
     success = false
 
     PodProcessor.settings.processing.each do |format, props|
-      target_path = Pathname.new(File.dirname(path)).join(basename + ".#{format}")
-      success = transcode(original, props['sampling_rate'], props['bitrate'], format, target_path)
+      target_path = base_path(path).join(basename + ".#{format}")
+      success = transcode(original, props['sampling_rate'], props['bitrate'],
+                          format, target_path)
       break unless success
     end
 
@@ -34,7 +35,7 @@ class Processor
 
   def move_original(path)
     basename = filename_without_extension(path)
-    original = Pathname.new(File.dirname(path)).join("#{basename}_original#{File.extname(path)}")
+    original = base_path(path).join("#{basename}_original#{File.extname(path)}")
     FileUtils.mv path, original
     [original, basename]
   end
@@ -49,20 +50,20 @@ class Processor
   def mail(slug, recipient, success)
     Pony.mail to: recipient,
               from: PodProcessor.settings.mail['sender'],
-              subject: PodProcessor.settings.mail["subject_#{result_suffix(success)}"],
+              subject: email_subject(success),
               body: render("email_#{result_suffix(success)}", slug: slug)
   end
 
+  def email_subject(success)
+    PodProcessor.settings.mail["subject_#{result_suffix(success)}"]
+  end
+
   def render(template, locals = {})
-    erb = ERB.new(File.read("./views/#{template}.erb"))
+    ERB.new(File.read("./views/#{template}.erb")).result_with_hash(locals)
+  end
 
-    # ruby > 2.5
-    return erb.result_with_hash(locals) if erb.respond_to? :result_with_hash
-
-    # ruby < 2.5
-    bind = binding
-    locals.each { |key, value| bind.local_variable_set(key, value) }
-    erb.result(bind)
+  def base_path(path)
+    Pathname.new(File.dirname(path))
   end
 
   def filename_without_extension(filename)
