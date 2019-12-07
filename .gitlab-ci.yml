@@ -14,7 +14,7 @@ audit:
   extends: .ruby
   script:
     - gem install bundler-audit
-    - bundler-audit
+    - bundle audit check --update
 
 deploy:
   extends: .ruby
