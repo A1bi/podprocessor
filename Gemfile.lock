@@ -10,15 +10,6 @@ GEM
       i18n
       rake (>= 10.0.0)
       sshkit (>= 1.9.0)
-    capistrano-bundler (1.5.0)
-      capistrano (~> 3.1)
-    capistrano-sidekiq (1.0.2)
-      capistrano (>= 3.9.0)
-      sidekiq (>= 3.4)
-    capistrano3-puma (3.1.1)
-      capistrano (~> 3.7)
-      capistrano-bundler
-      puma (~> 3.4)
     coffee-script (2.4.1)
       coffee-script-source
       execjs
@@ -93,8 +84,6 @@ PLATFORMS
 DEPENDENCIES
   byebug
   capistrano (~> 3.11)
-  capistrano-sidekiq (~> 1.0.2)
-  capistrano3-puma (~> 3.1.1)
   coffee-script
   dotenv
   encrypted_cookie
