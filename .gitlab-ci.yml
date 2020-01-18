@@ -1,25 +1,31 @@
-.ruby:
+.default-tags:
   tags: [ruby-2.6]
 
-before_script:
-  - ruby -v
+.bundle: &bundle
   - bundle install -j $(sysctl -n hw.ncpu)
 
 rubocop:
-  extends: .ruby
+  extends: .default-tags
+  except:
+    - schedules
+  before_script:
+    - *bundle
   script:
     - rubocop
 
 audit:
-  extends: .ruby
+  extends: .default-tags
   script:
     - gem install bundler-audit
     - bundle audit check --update
 
 deploy:
-  extends: .ruby
+  extends: .default-tags
+  except:
+    - schedules
   stage: deploy
   before_script:
+    - *bundle
     - eval $(ssh-agent -s)
     - echo "$DEPLOY_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
   script:
