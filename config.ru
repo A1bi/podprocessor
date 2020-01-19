@@ -14,7 +14,7 @@ map '/assets' do
   environment = Sprockets::Environment.new
   environment.append_path 'assets'
   environment.js_compressor  = :uglify
-  environment.css_compressor = :sass
+  environment.css_compressor = :sassc
   run environment
 end
 
