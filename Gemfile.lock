@@ -22,6 +22,8 @@ GEM
     encrypted_cookie (0.0.5)
       rack (>= 1.1, < 3)
     execjs (2.7.0)
+    faraday (0.17.3)
+      multipart-post (>= 1.2, < 3)
     ffi (1.12.1)
     i18n (1.8.2)
       concurrent-ruby (~> 1.0)
@@ -29,6 +31,7 @@ GEM
       mini_mime (>= 0.1.1)
     mini_mime (1.0.2)
     multi_json (1.14.1)
+    multipart-post (2.1.1)
     mustermann (1.1.1)
       ruby2_keywords (~> 0.0.1)
     net-scp (2.0.0)
@@ -47,6 +50,8 @@ GEM
     ruby2_keywords (0.0.2)
     sassc (2.2.1)
       ffi (~> 1.9)
+    sentry-raven (2.13.0)
+      faraday (>= 0.7.6, < 1.0)
     sidekiq (6.0.4)
       connection_pool (>= 2.2.2)
       rack (>= 2.0.0)
@@ -91,6 +96,7 @@ DEPENDENCIES
   pony
   puma
   sassc
+  sentry-raven
   sidekiq
   sinatra
   sinatra-contrib
