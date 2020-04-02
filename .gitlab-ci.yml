@@ -26,12 +26,8 @@ deploy:
   stage: deploy
   before_script:
     - *bundle
-    - eval $(ssh-agent -s)
-    - echo "$DEPLOY_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
   script:
-    - cap production deploy
-    # needs to be run here (not in after_script) or the job will get stuck
-    - ssh-agent -k
+    - ssh_wrap cap production deploy
   environment:
     name: production
     url: https://podcast.a0s.de
