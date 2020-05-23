@@ -20,4 +20,5 @@ group :development do
   gem 'byebug'
   gem 'capistrano', require: false
   gem 'capistrano-bundler', require: false
+  gem 'rubocop'
 end
