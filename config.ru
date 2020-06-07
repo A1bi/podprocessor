@@ -10,6 +10,8 @@ Bundler.require(:default, ENV['RACK_ENV'])
 Encoding.default_internal = Encoding::UTF_8
 Encoding.default_external = Encoding::UTF_8
 
+use Raven::Rack
+
 if ENV['RACK_ENV'] == 'production'
   Sidekiq::Web.use Rack::Auth::Basic do |username, password|
     Rack::Utils.secure_compare(
