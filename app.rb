@@ -28,7 +28,7 @@ class PodProcessor < Sinatra::Base
     podcast = params[:podcast]
     return 422 unless podcast_exist?(podcast) && params[:email] =~ /.+@.+\..+/
 
-    original_filename = params[:file][:filename]
+    original_filename = params[:file][:filename].force_encoding('utf-8')
     audio_file = params[:file][:tempfile]
 
     digest = Digest::SHA256.file(audio_file)
