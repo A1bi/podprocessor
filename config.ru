@@ -2,6 +2,7 @@
 
 require 'rubygems'
 require 'bundler'
+require 'delegate' # workaround for a bug in rake under ruby 2.7
 require 'sidekiq/web'
 
 Bundler.require(:default, ENV['RACK_ENV'])
