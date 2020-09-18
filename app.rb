@@ -121,7 +121,7 @@ class PodProcessor < Sinatra::Base
   end
 
   def filename_with_extension(filename)
-    filename + '.mp3'
+    "#{filename}.mp3"
   end
 
   def filename_without_extension(filename)
