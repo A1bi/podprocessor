@@ -5,14 +5,14 @@ require 'bundler'
 require 'delegate' # workaround for a bug in rake under ruby 2.7
 require 'sidekiq/web'
 
-Bundler.require(:default, ENV['RACK_ENV'])
+Bundler.require(:default, ENV.fetch('APP_ENV', 'development'))
 
 Encoding.default_internal = Encoding::UTF_8
 Encoding.default_external = Encoding::UTF_8
 
 use Raven::Rack
 
-if ENV['RACK_ENV'] == 'production'
+if ENV['APP_ENV'] == 'production'
   Sidekiq::Web.use Rack::Auth::Basic do |username, password|
     Rack::Utils.secure_compare(
       ::Digest::SHA256.hexdigest(username),
