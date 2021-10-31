@@ -10,7 +10,8 @@ Bundler.require(:default, ENV.fetch('APP_ENV', 'development'))
 Encoding.default_internal = Encoding::UTF_8
 Encoding.default_external = Encoding::UTF_8
 
-use Raven::Rack
+require './config/sentry'
+use Sentry::Rack::CaptureExceptions
 
 if ENV['APP_ENV'] == 'production'
   Sidekiq::Web.use Rack::Auth::Basic do |username, password|
