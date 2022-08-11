@@ -5,6 +5,7 @@ source 'https://rubygems.org'
 gem 'coffee-script'
 gem 'dotenv'
 gem 'encrypted_cookie'
+gem 'net-smtp', require: false
 gem 'pony'
 gem 'puma'
 gem 'sassc'
