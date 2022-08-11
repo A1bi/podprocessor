@@ -4,10 +4,12 @@ require 'sidekiq'
 require 'erb'
 require 'pathname'
 require 'pony'
+require 'sentry-sidekiq'
 
 require_relative '../app'
 require_relative '../config/sidekiq'
 require_relative '../config/pony'
+require_relative '../config/sentry'
 
 Encoding.default_internal = Encoding::UTF_8
 Encoding.default_external = Encoding::UTF_8
@@ -41,10 +43,15 @@ class Processor
   end
 
   def transcode(original, sampling_rate, bitrate, format, target_path)
-    system("ffmpeg -i '#{original}' \
-                   -ar #{sampling_rate} \
-                   -ab #{bitrate} -f #{format} \
-                   -y '#{target_path}'")
+    output = `ffmpeg -i '#{original}' \
+                     -ar #{sampling_rate} \
+                     -ab #{bitrate} -f #{format} \
+                     -y '#{target_path}' \
+                     2>&1`
+
+    Sentry.capture_message('Transcode failed', extra: { output: }) unless $CHILD_STATUS.success?
+
+    $CHILD_STATUS.success?
   end
 
   def mail(slug, recipient, success)
