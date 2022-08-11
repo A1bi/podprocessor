@@ -8,7 +8,7 @@ require './workers/processor'
 
 class PodProcessor < Sinatra::Base
   register Sinatra::ConfigFile
-  use Rack::Session::EncryptedCookie, secret: ENV['SESSION_SECRET']
+  use Rack::Session::EncryptedCookie, secret: ENV.fetch('SESSION_SECRET', nil)
 
   config_file 'config/config.yml'
 
@@ -39,11 +39,7 @@ class PodProcessor < Sinatra::Base
     target_filename.tr!(' ', '_')
     path = target_path(target_filename, podcast)
 
-    unless File.exist? path
-      File.open(path, 'wb') do |f|
-        f.write(audio_file.read)
-      end
-    end
+    File.binwrite(path, audio_file.read) unless File.exist? path
 
     session[:email] = params[:email]
 
@@ -116,7 +112,7 @@ class PodProcessor < Sinatra::Base
 
   def target_path(filename, podcast)
     path = Pathname.new(settings.audio_file_destination).join(podcast)
-    FileUtils.mkdir(path) unless Dir.exist? path
+    FileUtils.mkdir_p(path)
     path.join(filename_with_extension(filename))
   end
 

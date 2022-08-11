@@ -51,7 +51,7 @@ class Processor
     Pony.mail to: recipient,
               from: PodProcessor.settings.mail['sender'],
               subject: email_subject(success),
-              body: render("email_#{result_suffix(success)}", slug: slug)
+              body: render("email_#{result_suffix(success)}", slug:)
   end
 
   def email_subject(success)
