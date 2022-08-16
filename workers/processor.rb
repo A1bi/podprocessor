@@ -36,8 +36,9 @@ class Processor
   private
 
   def move_original(path)
-    basename = filename_without_extension(path)
-    original = base_path(path).join("#{basename}_original#{File.extname(path)}")
+    extension = File.extname(path)
+    basename = File.basename(path, extension)
+    original = base_path(path).join("#{basename}_original#{extension}")
     FileUtils.mv path, original
     [original, basename]
   end
@@ -71,10 +72,6 @@ class Processor
 
   def base_path(path)
     Pathname.new(File.dirname(path))
-  end
-
-  def filename_without_extension(filename)
-    File.basename(filename, File.extname(filename))
   end
 
   def result_suffix(success)

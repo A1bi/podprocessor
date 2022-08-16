@@ -34,20 +34,19 @@ class PodProcessor < Sinatra::Base
     digest = Digest::SHA256.file(audio_file)
     file_hash = digest.hexdigest[0..16]
 
-    target_filename = filename_without_extension(original_filename)
+    extension = File.extname(original_filename)
+    target_filename = File.basename(original_filename, extension)
     target_filename << "_#{file_hash}"
-    target_filename.gsub!(/[^\w.-]/, '')
+    target_filename.gsub!(/[^\w-]/, '')
     target_filename.gsub!(/[-_]+/, '_')
     target_filename.tr!(' ', '_')
-    path = target_path(target_filename, podcast)
+    path = target_path([target_filename, extension].join, podcast)
 
     File.binwrite(path, audio_file.read) unless File.exist? path
 
     session[:email] = params[:email]
 
     Processor.perform_async(path, params[:email])
-
-    Pathname.new(podcast).join(filename_with_extension(target_filename)).to_s
   end
 
   delete '/files' do
@@ -57,7 +56,7 @@ class PodProcessor < Sinatra::Base
     podcast = File.dirname(path)
     return 422 unless podcast_exist? podcast
 
-    filepath = target_path(filename_without_extension(path), podcast)
+    filepath = target_path(path, podcast)
     return 404 unless File.exist? filepath
 
     # disallow deletion files older than three hours
@@ -115,15 +114,7 @@ class PodProcessor < Sinatra::Base
   def target_path(filename, podcast)
     path = Pathname.new(settings.audio_file_destination).join(podcast)
     FileUtils.mkdir_p(path)
-    path.join(filename_with_extension(filename))
-  end
-
-  def filename_with_extension(filename)
-    "#{filename}.mp3"
-  end
-
-  def filename_without_extension(filename)
-    File.basename(filename, File.extname(filename))
+    path.join(filename)
   end
 
   def podcast_exist?(name)

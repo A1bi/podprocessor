@@ -14,7 +14,8 @@ window.addEventListener 'load', ->
   pond = FilePond.create(filepicker,
     name: 'file',
     labelIdle: filepicker.dataset.label
-    acceptedFileTypes: ['audio/mpeg', 'audio/mp3'],
+    acceptedFileTypes: ['audio/mpeg', 'audio/mp3',
+                        'audio/vnd.wave', 'audio/wav', 'audio/wave', 'audio/x-wav'],
     server: {
       url: '/files',
       process: {
