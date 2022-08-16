@@ -36,6 +36,8 @@ class PodProcessor < Sinatra::Base
 
     target_filename = filename_without_extension(original_filename)
     target_filename << "_#{file_hash}"
+    target_filename.gsub!(/[^\w.-]/, '')
+    target_filename.gsub!(/[-_]+/, '_')
     target_filename.tr!(' ', '_')
     path = target_path(target_filename, podcast)
 
