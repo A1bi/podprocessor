@@ -18,8 +18,11 @@ gem 'slim'
 gem 'sprockets'
 gem 'uglifier'
 
-group :development do
+group :development, :test do
   gem 'byebug'
+end
+
+group :development, :ci do
   gem 'capistrano', require: false
   gem 'capistrano-bundler', require: false
   gem 'rubocop'

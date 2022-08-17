@@ -1,7 +1,8 @@
 .default-tags:
-  tags: [ruby-2.6]
+  tags: [ruby-3.1]
 
 .bundle: &bundle
+  - bundle config set --local without development
   - bundle install -j $(sysctl -n hw.ncpu)
 
 rubocop:
