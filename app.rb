@@ -46,7 +46,7 @@ class PodProcessor < Sinatra::Base
 
     session[:email] = params[:email]
 
-    Processor.perform_async(path, params[:email])
+    Processor.perform_async(path.to_s, params[:email])
   end
 
   delete '/files' do
