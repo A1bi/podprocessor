@@ -1,6 +1,6 @@
 podcasts:
-  3dcast: 3D-Podcast
-  gwaren: Gebrauchtwaren-Podcast
+  bratwurst: Abenteuer Bratwurst
+  gwaren: Gebrauchtwarenpodcast
 audio_file_destination:
   development: ./tmp/files
   production: /usr/local/www/media
